@@ -1,7 +1,7 @@
 import random
 from faker import Faker
 
-import text_templates as tt
+import text_templates
 
 
 def generate_number():
@@ -12,13 +12,14 @@ def generate_number():
 def transliterate_skill(skill):
     transliterated_letters = []
     for letter in skill:
-        runic_letter = letter.replace(letter, tt.letters_mapping[letter])
+        runic_letter = letter.replace(
+            letter, text_templates.letters_mapping[letter])
         transliterated_letters.append(runic_letter)
     transliterated_to_runic = ''.join(transliterated_letters)
     return transliterated_to_runic
 
 
-def generate_abilities():
+def generate_profile():
     fake = Faker('ru_Ru')
     first_name = fake.first_name_male()
     last_name = fake.last_name_male()
@@ -31,13 +32,13 @@ def generate_abilities():
     intelligence = generate_number()
     luck = generate_number()
 
-    random_skills = random.sample(tt.skills, 3)
+    random_skills = random.sample(text_templates.skills, 3)
     runic_skills = []
     for skill in random_skills:
         skill = transliterate_skill(skill)
         runic_skills.append(skill)
 
-    abilities = {
+    profile_data = {
         'first_name': first_name,
         'last_name': last_name,
         'job': job,
@@ -52,4 +53,4 @@ def generate_abilities():
         'skill_3': runic_skills[2],
         }
 
-    return abilities
+    return profile_data
